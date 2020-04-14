@@ -15,7 +15,7 @@ namespace AI.NEAT
     public class Genome
     {
         private const float PerturbingProbability = 0.9f;
-        private const float PerturbingStrength = 0.3f;
+        private const float PerturbingStrength = 0.01f;
         private const float WeightStrength = 1f;
 
         public Dictionary<int, NodeGene> Nodes;
@@ -52,6 +52,8 @@ namespace AI.NEAT
 
         public void AddNodeMutation(Counter nodeInnovation, Counter connectionInnovation)
         {
+            if (Connections.Values.Count == 0) return;
+            
             var oldConnection = Connections.Values.ToArray()[RandomnessHandler.Random.Next(Connections.Count)];
             var inNode = Nodes[oldConnection.InNode];
             var outNode = Nodes[oldConnection.OutNode];
@@ -76,7 +78,7 @@ namespace AI.NEAT
             var currentAttempt = 0;
             var success = false;
 
-            while (currentAttempt < maxAttempts && !success)
+            while (currentAttempt < maxAttempts)
             {
                 currentAttempt++;
 
@@ -128,6 +130,8 @@ namespace AI.NEAT
 
         public void ToggleConnectionMutation()
         {
+            if (Connections.Values.Count == 0) return;
+            
             var connection = Connections.Values.ToArray()[RandomnessHandler.Random.Next(Connections.Values.Count)];
             connection.Expressed = !connection.Expressed;
         }
@@ -167,6 +171,7 @@ namespace AI.NEAT
                 }
             }
 
+            if (genome1.Connections.Count == 0 || genome2.Connections.Count == 0) return new GenomesGenesInfo(0, 0, 0, 0);
             var highestConnectionInnovation1 = genome1.Connections.Keys.Max();
             var highestConnectionInnovation2 = genome2.Connections.Keys.Max();
             var connectionIndices = Math.Max(highestConnectionInnovation1, highestConnectionInnovation2);
@@ -200,7 +205,7 @@ namespace AI.NEAT
 
             return new GenomesGenesInfo(matchingGenes + matchingConnectionGenes,
                 disjointGenes + disjointConnectionGenes,
-                excessGenes + excessConnectionGenes, weightDifference / matchingConnectionGenes);
+                excessGenes + excessConnectionGenes, matchingConnectionGenes == 0 ? 0 : weightDifference / matchingConnectionGenes);
         }
 
         // parent1 should be the most fit parent

@@ -18,11 +18,11 @@ namespace AI.NEAT
         private const float C1 = 1.0f;
         private const float C2 = 1.0f;
         private const float C3 = 0.4f;
-        private const float DT = 5.0f;
-        private const float WeightMutationRate = 0.1f;
-        private const float AddConnectionRate = 0.05f;
-        private const float ToggleConnectionRate = 0.05f;
-        private const float AddNodeRate = 0.05f;
+        private const float DT = 10.0f;
+        private const float WeightMutationRate = 0.5f;
+        private const float AddConnectionRate = 0.5f;
+        private const float ToggleConnectionRate = 0.5f;
+        private const float AddNodeRate = 0.3f;
         private const int ConnectionMutationMaxAttempts = 10;
 
 
@@ -57,17 +57,19 @@ namespace AI.NEAT
                 }
 
                 var connectionGenes = new Dictionary<int, ConnectionGene>();
-                foreach (var inputGene in inputGenes)
+                if (Settings.Instance.autoGenerateConnections)
                 {
-                    foreach (var outputGene in outputGenes)
+                    foreach (var inputGene in inputGenes)
                     {
-                        var newConnectionInnovation = connectionInnovation.GetInnovation();
-                        connectionGenes.Add(newConnectionInnovation,
-                            new ConnectionGene(inputGenes.FirstOrDefault(x => x.Value == inputGene.Value).Key,
-                                outputGenes.FirstOrDefault(x => x.Value == outputGene.Value).Key,
-                                RandomnessHandler.RandomZeroToOne() * 4 - 2, true,
-                                newConnectionInnovation));
-                        if (!Settings.Instance.autoGenerateConnections) break;
+                        foreach (var outputGene in outputGenes)
+                        {
+                            var newConnectionInnovation = connectionInnovation.GetInnovation();
+                            connectionGenes.Add(newConnectionInnovation,
+                                new ConnectionGene(inputGenes.FirstOrDefault(x => x.Value == inputGene.Value).Key,
+                                    outputGenes.FirstOrDefault(x => x.Value == outputGene.Value).Key,
+                                    RandomnessHandler.RandomZeroToOne() * 4 - 2, true,
+                                    newConnectionInnovation));
+                        }
                     }
                 }
 

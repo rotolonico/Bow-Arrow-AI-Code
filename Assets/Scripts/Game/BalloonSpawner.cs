@@ -37,7 +37,7 @@ namespace Game
             newBalloon.name = instanceId.ToString();
             var newBalloonHandler = newBalloon.GetComponent<BalloonHandler>();
             currentBalloon = newBalloonHandler;
-            newBalloonHandler.speed = RandomnessHandler.RandomMinMax(3, 5);
+            newBalloonHandler.speed = Settings.Scenario == 1 || Settings.Scenario == 3 ? 3 : RandomnessHandler.RandomMinMax(1, 5);
             newBalloonHandler.instanceId = instanceId;
             if (visible) newBalloon.GetComponent<SpriteRenderer>().color = evil ? Color.yellow : Color.red;
 

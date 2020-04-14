@@ -32,7 +32,7 @@ namespace Game
         {
             currentDelay = spawnDelay;
             balloonSpawners = new BalloonSpawner[1];
-            SpawnBalloonSpawner(new Vector3(3, -5, 0), 0, false);
+            SpawnBalloonSpawner(new Vector3(3, -5, 0), 0, Settings.Scenario == 3 || Settings.Scenario == 4);
 //            SpawnBalloonSpawner(new Vector3(5, -5, 0), 1, false);
 //            SpawnBalloonSpawner(new Vector3(7, -5, 0), 2, false);
         }
@@ -63,7 +63,7 @@ namespace Game
                 var outputs = NetworkCalculator.TestNetworkGenome(genome.Network, InputsRetriever.GetInputs(this));
                 if (outputs[0] - outputs[1] >= 0) Up();
                 if (outputs[2] - outputs[3] >= 0) Down();
-                genome.Genome.Score = Math.Max((balloonsHit + evilBalloonsHit) * 5f - spawnedArrows, 0);
+                genome.Genome.Score = Settings.Scenario == 3 || Settings.Scenario == 4 ? Math.Max(-evilBalloonsHit * 50f + spawnedArrows, 0) : Math.Max((balloonsHit - evilBalloonsHit) * 5f - spawnedArrows, 0);
                 if (currentDelay < spawnDelay) return;
                 if (outputs[4] - outputs[5] >= 0) SpawnArrow();
             }

@@ -14,7 +14,7 @@ namespace IO
             var inputs = new float[3];
             inputs[0] = (player.transform.position.y + 5) / 10;
             inputs[1] = player.balloonSpawners[0].currentBalloon == null ? 1f : (player.balloonSpawners[0].currentBalloon.transform.position.y + 5) / 10;
-            inputs[2] = player.balloonSpawners[0].currentBalloon == null ? 1f : (player.balloonSpawners[0].currentBalloon.speed - 2) / 3;
+            if (Settings.Scenario != 1 && Settings.Scenario != 3) inputs[2] = player.balloonSpawners[0].currentBalloon == null ? 1f : (player.balloonSpawners[0].currentBalloon.speed - 1) / 5;
             //inputs[2] = player.balloonSpawners[1].currentBalloon == null ? 1f : (player.balloonSpawners[1].currentBalloon.transform.position.y + 5) / 10;
             //inputs[4] = player.balloonSpawners[1].currentBalloon == null ? 1f : player.balloonSpawners[1].currentBalloon.speed / 3;
             //inputs[3] = player.balloonSpawners[2].currentBalloon == null ? 1f : (player.balloonSpawners[2].currentBalloon.transform.position.y + 5) / 10;
