@@ -3,26 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c9922c2b-546f-4bc8-8680-2a018041b8d8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Bow &amp; Arrow AI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Bow &amp; Arrow AI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Arrow.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Arrow.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Balloon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Balloon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/EvilBalloon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/EvilBalloon.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlayerAI.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PlayerAI.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AI/NEATHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AI/NEATHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/ArrowHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/ArrowHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/BalloonHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/BalloonHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/BalloonSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/BalloonSpawner.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/GameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/GameHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/Settings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/IO/InputsRetriever.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/IO/InputsRetriever.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Arrow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Arrow.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Arrow.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Balloon.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Balloon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Balloon.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Balloon.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Player.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Player.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Player.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Player.png.meta" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -79,11 +63,11 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/ArrowHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/PlayerBalloonSpawner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/IO/InputsRetriever.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/Settings.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AI/NEATHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/BalloonSpawner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game/GameHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game/PlayerController.cs" />
       </list>
     </option>
   </component>
@@ -145,7 +129,8 @@
       <workItem from="1586680772333" duration="20996000" />
       <workItem from="1586763393961" duration="4657000" />
       <workItem from="1586859159230" duration="2269000" />
-      <workItem from="1587054898356" duration="7684000" />
+      <workItem from="1587054898356" duration="7942000" />
+      <workItem from="1587064160168" duration="170000" />
     </task>
     <servers />
   </component>

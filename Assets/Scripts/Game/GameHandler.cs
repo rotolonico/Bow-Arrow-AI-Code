@@ -34,6 +34,7 @@ namespace Game
         public void ResetGameAndNetwork(Genome startingGenome = null)
         {
             globalBalloonSpawner.balloonsSpawned = 0;
+            globalBalloonSpawner.balloonsText.text = $"{0}/{Settings.Instance.maxBalloons}";
             
             foreach (var food in GameObject.FindGameObjectsWithTag("Arrow")) Destroy(food);
             foreach (var tail in GameObject.FindGameObjectsWithTag("Player")) Destroy(tail);
@@ -48,6 +49,7 @@ namespace Game
         public void ResetGame()
         {
             globalBalloonSpawner.balloonsSpawned = 0;
+            globalBalloonSpawner.balloonsText.text = $"{0}/{Settings.Instance.maxBalloons}";
             
             foreach (var food in GameObject.FindGameObjectsWithTag("Arrow")) Destroy(food);
             foreach (var tail in GameObject.FindGameObjectsWithTag("Player")) Destroy(tail);

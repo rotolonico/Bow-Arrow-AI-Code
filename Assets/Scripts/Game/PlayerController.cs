@@ -35,9 +35,7 @@ namespace Game
         {
             currentDelay = spawnDelay;
             balloonSpawners = new BalloonSpawner[1];
-            //SpawnBalloonSpawner(new Vector3(3, -5, 0), 0, Settings.Scenario == 3 || Settings.Scenario == 4);
-//            SpawnBalloonSpawner(new Vector3(5, -5, 0), 1, false);
-//            SpawnBalloonSpawner(new Vector3(7, -5, 0), 2, false);
+            arrowsText.text = $"{spawnedArrows}/{Settings.Instance.maxArrows}";
         }
 
         private void SpawnBalloonSpawner(Vector3 position, int number, bool evil)
