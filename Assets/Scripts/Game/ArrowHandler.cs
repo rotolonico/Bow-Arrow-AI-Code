@@ -20,10 +20,10 @@ namespace Game
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.CompareTag("Balloon") && !other.CompareTag("EvilBalloon") || other.name != name) return;
+            if (!other.CompareTag("Balloon") && !other.CompareTag("EvilBalloon")) return;
             if (other.CompareTag("Balloon")) player.balloonsHit++;
             else player.evilBalloonsHit++;
-            Destroy(other.gameObject);
+            if (player.isPlayer || player.genome.Best) other.GetComponent<SpriteRenderer>().color = Color.clear;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using AI.NEAT;
 using IO;
 using NN;
+using TMPro;
 using UnityEngine;
 
 namespace Game
@@ -11,6 +12,8 @@ namespace Game
     {
         public GameObject arrowPrefab;
         public GameObject balloonSpawnerPrefab;
+
+        public TextMeshPro arrowsText; 
 
         public float spawnDelay;
 
@@ -32,7 +35,7 @@ namespace Game
         {
             currentDelay = spawnDelay;
             balloonSpawners = new BalloonSpawner[1];
-            SpawnBalloonSpawner(new Vector3(3, -5, 0), 0, Settings.Scenario == 3 || Settings.Scenario == 4);
+            //SpawnBalloonSpawner(new Vector3(3, -5, 0), 0, Settings.Scenario == 3 || Settings.Scenario == 4);
 //            SpawnBalloonSpawner(new Vector3(5, -5, 0), 1, false);
 //            SpawnBalloonSpawner(new Vector3(7, -5, 0), 2, false);
         }
@@ -45,7 +48,7 @@ namespace Game
             newBalloonSpawner.evil = evil;
             balloonSpawners[number] = newBalloonSpawner; 
             newBalloonSpawner.visible = isPlayer || genome.Best;
-            newBalloonSpawner.number = number + 1;
+            newBalloonSpawner.balloonsSpawned = number + 1;
         }
 
         private void Update()
@@ -63,15 +66,15 @@ namespace Game
                 var outputs = NetworkCalculator.TestNetworkGenome(genome.Network, InputsRetriever.GetInputs(this));
                 if (outputs[0] - outputs[1] >= 0) Up();
                 if (outputs[2] - outputs[3] >= 0) Down();
-                genome.Genome.Score = Settings.Scenario == 3 || Settings.Scenario == 4 ? Math.Max(-evilBalloonsHit * 50f + spawnedArrows, 0) : Math.Max((balloonsHit - evilBalloonsHit) * 5f - spawnedArrows, 0);
+                genome.Genome.Score = Settings.Scenario == 3 || Settings.Scenario == 4 ? Math.Max(-evilBalloonsHit * 50f + spawnedArrows, 0) : Math.Max((balloonsHit - evilBalloonsHit) * 5f, 0);
                 if (currentDelay < spawnDelay) return;
-                if (outputs[4] - outputs[5] >= 0) SpawnArrow();
+                if (spawnedArrows < Settings.Instance.maxArrows && outputs[4] - outputs[5] >= 0) SpawnArrow();
             }
             else
             {
                 if (currentDelay < spawnDelay) return;
 
-                if (isPlayer && Input.GetKeyDown(KeyCode.Space)) SpawnArrow();
+                if (spawnedArrows < Settings.Instance.maxArrows && isPlayer && Input.GetKeyDown(KeyCode.Space)) SpawnArrow();
             }
         }
 
@@ -91,7 +94,9 @@ namespace Game
 
         private void SpawnArrow()
         {
-            var newArrow = Instantiate(arrowPrefab, transform.position, Quaternion.identity);
+            var spawnPosition = transform.position;
+            spawnPosition.y += 0.5f;
+            var newArrow = Instantiate(arrowPrefab, spawnPosition, Quaternion.identity);
             newArrow.name = instanceId.ToString();
             if (isPlayer || genome.Best) newArrow.GetComponent<SpriteRenderer>().color = Color.white;
             var newArrowHandler = newArrow.GetComponent<ArrowHandler>();
@@ -99,6 +104,7 @@ namespace Game
             newArrowHandler.player = this;
             currentDelay = 0;
             spawnedArrows++;
+            arrowsText.text = $"{spawnedArrows}/{Settings.Instance.maxArrows}";
         }
     }
 }

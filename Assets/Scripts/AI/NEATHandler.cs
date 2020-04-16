@@ -46,6 +46,8 @@ namespace AI
                 if (!genome.Best) continue;
                 NetworkDisplayer.Instance.DisplayNetwork(genome.Genome);
                 newPlayerAI.GetComponent<SpriteRenderer>().color = Color.white;
+                newPlayerAI.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+                newPlayerAI.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
             }
         }
     }

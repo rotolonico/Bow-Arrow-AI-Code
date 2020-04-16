@@ -8,7 +8,8 @@ namespace Game
         public float speed;
         public int instanceId;
         public bool evil;
-        
+        public float xOffset;
+
         private void Update()
         {
             transform.position += new Vector3(0, Time.deltaTime * speed * Settings.Instance.gameSpeed, 0);
