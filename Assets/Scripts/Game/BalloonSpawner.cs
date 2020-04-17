@@ -52,7 +52,7 @@ namespace Game
             {
                 currentDelay += Time.deltaTime;
                 if (currentDelay < spawnDelay / Settings.Instance.gameSpeed) return;
-                SpawnBalloon(balloonsSpawned % 3 * 3 - 4);
+                SpawnBalloon((float) random.NextDouble() * 6 - 4);
                 balloonsText.text = $"{balloonsSpawned}/{Settings.Instance.maxBalloons}";
                 currentDelay = 0;
             }

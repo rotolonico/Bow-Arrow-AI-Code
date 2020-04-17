@@ -12,7 +12,7 @@ namespace AI
     public class NEATHandler : MonoBehaviour
     {
         public static NEATHandler Instance;
-        
+
         public GameObject playerAI;
         public int populationSize;
         public List<PlayerController> alivePopulation = new List<PlayerController>();
@@ -23,10 +23,15 @@ namespace AI
 
         private void Start() => InitializeNetwork();
 
-        public void InitializeNetwork(Genome startingGenome = null)
+        public void InitializeNetwork(GenomeWrapper startingGenome = null)
         {
-            evaluator = new Evaluator(populationSize, new Counter(), new Counter(), g => Mathf.Pow(g.Score, 3), startingGenome);
-            InitiateGeneration();
+            if (!GameHandler.Instance.useTrainedNetwork.isOn)
+            {
+                evaluator = new Evaluator(populationSize, new Counter(), new Counter(), g => Mathf.Pow(g.Score, 3),
+                    startingGenome?.Genome);
+                InitiateGeneration();
+            }
+            else InitializeGenome(startingGenome);
         }
 
         public void InitiateGeneration()
@@ -42,13 +47,29 @@ namespace AI
                 newPlayerController.genome = genome;
                 newPlayerController.instanceId = i;
                 alivePopulation.Add(newPlayerAI.GetComponent<PlayerController>());
-                
+
                 if (!genome.Best) continue;
                 NetworkDisplayer.Instance.DisplayNetwork(genome.Genome);
                 newPlayerAI.GetComponent<SpriteRenderer>().color = Color.white;
                 newPlayerAI.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
                 newPlayerAI.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
             }
+        }
+
+        public void InitializeGenome(GenomeWrapper genome)
+        {
+            var newPlayerAI = Instantiate(playerAI, transform.position, Quaternion.identity);
+            newPlayerAI.name = "0";
+            var newPlayerController = newPlayerAI.GetComponent<PlayerController>();
+            newPlayerController.genome = genome;
+            newPlayerController.genome.Best = true;
+            newPlayerController.instanceId = 0;
+            alivePopulation.Add(newPlayerAI.GetComponent<PlayerController>());
+
+            NetworkDisplayer.Instance.DisplayNetwork(genome.Genome);
+            newPlayerAI.GetComponent<SpriteRenderer>().color = Color.white;
+            newPlayerAI.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+            newPlayerAI.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
         }
     }
 }

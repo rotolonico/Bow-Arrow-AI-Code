@@ -29,8 +29,10 @@ namespace Game
 
         public void Update()
         {
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S)) NEATHandler.Instance.evaluator.FittestGenome.Genome.SaveGenome("Genome");
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) GameHandler.Instance.ResetGameAndNetwork(Genome.LoadGenome("Genome"));
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
+                NEATHandler.Instance.evaluator.FittestGenome.Genome.SaveGenome("Genome");
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
+                GameHandler.Instance.ResetGameAndNetwork(new GenomeWrapper(Genome.LoadGenome("Genome")));
         }
 
         public void ChangeScenario(int scenario)
