@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AI;
 using AI.NEAT;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace Game
         public void Update()
         {
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S))
-                NEATHandler.Instance.evaluator.FittestGenome.Genome.SaveGenome("Genome");
+                NEATHandler.Instance.evaluator.Genomes.First(g => g.Best).Genome.SaveGenome("Genome");
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L))
                 GameHandler.Instance.ResetGameAndNetwork(new GenomeWrapper(Genome.LoadGenome("Genome")));
         }

@@ -21,7 +21,7 @@ namespace AI.NEAT
         private const float DT = 10.0f;
         private const float WeightMutationRate = 0.5f;
         private const float AddConnectionRate = 0.5f;
-        private const float ToggleConnectionRate = 0.5f;
+        private const float ToggleConnectionRate = 0f;
         private const float AddNodeRate = 0.3f;
         private const int ConnectionMutationMaxAttempts = 10;
 
@@ -92,6 +92,7 @@ namespace AI.NEAT
         {
             species.Clear();
             HighestScore = float.MinValue;
+            FittestGenome = null;
 
             foreach (var g in Genomes)
             {
@@ -115,7 +116,7 @@ namespace AI.NEAT
                 var score = EvaluateGenome(g.Genome);
                 g.Fitness = g.Fitness * 0.5f + score;
 
-                if (!(HighestScore < score)) continue;
+                if (!(HighestScore <= score)) continue;
                 HighestScore = score;
                 if (FittestGenome != null) FittestGenome.Best = false;
                 FittestGenome = g;
@@ -123,11 +124,12 @@ namespace AI.NEAT
             }
 
             species.RemoveAll(s => s.Members.Count == 0);
-
+    
             Genomes.Clear();
 
-            foreach (var speciesFitness in species.Select(s => s.CalculateSpeciesFitness()))
-                Genomes.Add(speciesFitness.BestMember);
+            foreach (var speciesFitness in species.Select(s => s.CalculateSpeciesFitness()).Where(f => !f.BestMember.Best))
+                Genomes.Add(new GenomeWrapper(new Genome(speciesFitness.BestMember.Genome)));
+            Genomes.Add(new GenomeWrapper(new Genome(FittestGenome.Genome)) {Best = true});
 
             while (Genomes.Count < populationSize)
             {

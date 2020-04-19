@@ -219,11 +219,11 @@ namespace AI.NEAT
                 if (parent2.Connections.TryGetValue(connection1.Innovation, out var connection2) && connection2.Expressed)
                 {
                     var childConnectionGene = RandomnessHandler.RandomBool() ? connection1 : connection2;
-                    child.Connections.Add(childConnectionGene.Innovation, childConnectionGene);
+                    child.Connections.Add(childConnectionGene.Innovation, childConnectionGene.Copy());
                 }
                 else
                 {
-                    child.Connections.Add(connection1.Innovation, connection1);
+                    child.Connections.Add(connection1.Innovation, connection1.Copy());
                 }
             }
 

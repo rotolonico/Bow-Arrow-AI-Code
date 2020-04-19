@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 442863169}
   - component: {fileID: 442863168}
   - component: {fileID: 442863170}
+  - component: {fileID: 442863171}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -609,6 +610,18 @@ MonoBehaviour:
     type: 3}
   negativeColor: {r: 1, g: 0, b: 0, a: 1}
   positiveColor: {r: 0, g: 0.08403206, b: 1, a: 1}
+--- !u!114 &442863171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442863165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68274bc157039f7bd873a9d3c95f4aab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &509594087
 GameObject:
   m_ObjectHideFlags: 0

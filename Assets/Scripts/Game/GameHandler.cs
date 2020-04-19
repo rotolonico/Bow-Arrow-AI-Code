@@ -43,12 +43,12 @@ namespace Game
             if (isWebGL)
                 NetworkStorage.Instance.DownloadGenome(genomePath, downloadedGenome =>
                 {
-                    trainedGenome = new GenomeWrapper(downloadedGenome);
+                    trainedGenome = new GenomeWrapper(new Genome(downloadedGenome));
                     genomeDownloaded = true;
                 }, Debug.Log);
             else
             {
-                trainedGenome = new GenomeWrapper(NetworkStorage.LoadGenome(genomePath));
+                trainedGenome = new GenomeWrapper(new Genome(NetworkStorage.LoadGenome(genomePath)));
                 genomeDownloaded = true;
             }
         }
@@ -69,7 +69,7 @@ namespace Game
         {
             if (!genomeDownloaded)
             {
-                useTrainedNetwork.isOn = !useTrainedNetwork.isOn;
+                useTrainedNetwork.SetIsOnWithoutNotify(!useTrainedNetwork.isOn);
                 return;
             }
             
