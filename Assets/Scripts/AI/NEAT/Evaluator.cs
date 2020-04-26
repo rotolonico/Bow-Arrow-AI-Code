@@ -18,7 +18,7 @@ namespace AI.NEAT
         private const float C1 = 1.0f;
         private const float C2 = 1.0f;
         private const float C3 = 0.4f;
-        private const float DT = 10.0f;
+        private const float DT = 5.0f;
         private const float WeightMutationRate = 0.5f;
         private const float AddConnectionRate = 0.5f;
         private const float ToggleConnectionRate = 0f;
@@ -41,7 +41,7 @@ namespace AI.NEAT
             {
                 this.nodeInnovation = nodeInnovation;
                 this.connectionInnovation = connectionInnovation;
-                
+
                 var inputGenes = new Dictionary<int, NodeGene>();
                 var outputGenes = new Dictionary<int, NodeGene>();
                 for (var i = 0; i < Settings.Instance.inputs; i++)
@@ -124,10 +124,22 @@ namespace AI.NEAT
             }
 
             species.RemoveAll(s => s.Members.Count == 0);
-    
+
+            if (species.Count > populationSize / 5)
+            {
+                var orderedSpecies = species.OrderBy(s => s.CalculateSpeciesFitness().Fitness).ToArray();
+                var speciesIndex = 0;
+                while (species.Count > populationSize / 5)
+                {
+                    species.Remove(orderedSpecies[speciesIndex]);
+                    speciesIndex++;
+                }
+            }
+
             Genomes.Clear();
 
-            foreach (var speciesFitness in species.Select(s => s.CalculateSpeciesFitness()).Where(f => !f.BestMember.Best))
+            foreach (var speciesFitness in species.Select(s => s.CalculateSpeciesFitness())
+                .Where(f => !f.BestMember.Best))
                 Genomes.Add(new GenomeWrapper(new Genome(speciesFitness.BestMember.Genome)));
             Genomes.Add(new GenomeWrapper(new Genome(FittestGenome.Genome)) {Best = true});
 
@@ -150,7 +162,7 @@ namespace AI.NEAT
                     child.ToggleConnectionMutation();
                 if (RandomnessHandler.RandomZeroToOne() < AddNodeRate)
                     child.AddNodeMutation(nodeInnovation, connectionInnovation);
-                
+
                 Genomes.Add(new GenomeWrapper(child) {Fitness = leastFitParent.Fitness});
             }
         }

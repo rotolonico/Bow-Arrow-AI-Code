@@ -386,12 +386,19 @@ MonoBehaviour:
   balloonSpawnerPrefab: {fileID: 6913820331006302780, guid: b28fddf020c40d82e8a4eb93c82335ec,
     type: 3}
   arrowsText: {fileID: 7752507743743525769}
-  spawnDelay: 0.3
-  playerSpeed: 0.3
+  spawnDelay: 0.6
+  playerSpeed: 10
   instanceId: 0
   isPlayer: 0
   balloonsHit: 0
+  balloonsLeftHit: 0
+  balloonsRightHit: 0
   evilBalloonsHit: 0
   spawnedArrows: 0
+  balloonsPoints: 0
+  comboPoints: 0
+  inCombo: 0
+  lastBalloonX: 0
+  hit: 0
   balloonSpawners:
   - {fileID: 0}

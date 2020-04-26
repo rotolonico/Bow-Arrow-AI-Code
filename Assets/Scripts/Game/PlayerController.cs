@@ -13,7 +13,7 @@ namespace Game
         public GameObject arrowPrefab;
         public GameObject balloonSpawnerPrefab;
 
-        public TextMeshPro arrowsText; 
+        public TextMeshPro arrowsText;
 
         public float spawnDelay;
 
@@ -22,8 +22,17 @@ namespace Game
         public bool isPlayer;
 
         public int balloonsHit;
+        public int balloonsLeftHit;
+        public int balloonsRightHit;
         public int evilBalloonsHit;
         public int spawnedArrows;
+        public float balloonsPoints;
+        public int comboPoints;
+
+        public bool inCombo;
+        public float lastBalloonX;
+
+        public bool hit;
 
         [HideInInspector] public BalloonSpawner[] balloonSpawners;
 
@@ -44,7 +53,7 @@ namespace Game
                 .GetComponent<BalloonSpawner>();
             newBalloonSpawner.instanceId = instanceId;
             newBalloonSpawner.evil = evil;
-            balloonSpawners[number] = newBalloonSpawner; 
+            balloonSpawners[number] = newBalloonSpawner;
             newBalloonSpawner.visible = isPlayer || genome.Best;
             newBalloonSpawner.balloonsSpawned = number + 1;
         }
@@ -55,24 +64,25 @@ namespace Game
             if (isPlayer)
                 transform.position = new Vector3(playerPosition.x,
                     Mathf.Clamp(
-                        playerPosition.y + Input.GetAxisRaw("Vertical") * playerSpeed * Settings.Instance.gameSpeed, -3,
+                        playerPosition.y + Input.GetAxisRaw("Vertical") * playerSpeed * Settings.Instance.gameSpeed * Time.deltaTime, -3,
                         3), 0);
             currentDelay += Time.deltaTime;
 
             if (!isPlayer)
             {
                 var outputs = NetworkCalculator.TestNetworkGenome(genome.Network, InputsRetriever.GetInputs(this));
-                if (outputs[0] - outputs[1] >= 0) Up();
-                if (outputs[2] - outputs[3] >= 0) Down();
-                genome.Genome.Score = Settings.Scenario == 3 || Settings.Scenario == 4 ? Math.Max(-evilBalloonsHit * 50f + spawnedArrows, 0) : Math.Max((balloonsHit - evilBalloonsHit) * 5f, 0);
+                if (outputs[0] - outputs[1] > 0) Up();
+                else Down();
+                genome.Genome.Score = Math.Max(0, balloonsHit);
                 if (currentDelay < spawnDelay) return;
-                if (spawnedArrows < Settings.Instance.maxArrows && outputs[4] - outputs[5] >= 0) SpawnArrow();
+                if (spawnedArrows < Settings.Instance.maxArrows && outputs[2] - outputs[3] > 0f) SpawnArrow();
             }
             else
             {
                 if (currentDelay < spawnDelay) return;
 
-                if (spawnedArrows < Settings.Instance.maxArrows && isPlayer && Input.GetKeyDown(KeyCode.Space)) SpawnArrow();
+                if (spawnedArrows < Settings.Instance.maxArrows && isPlayer && Input.GetKeyDown(KeyCode.Space))
+                    SpawnArrow();
             }
         }
 
@@ -80,14 +90,14 @@ namespace Game
         {
             var playerPosition = transform.position;
             transform.position = new Vector3(playerPosition.x,
-                Mathf.Clamp(playerPosition.y + playerSpeed * Settings.Instance.gameSpeed, -3, 3), 0);
+                Mathf.Clamp(playerPosition.y + playerSpeed * Settings.Instance.gameSpeed * Time.deltaTime, -3, 3), 0);
         }
 
         private void Down()
         {
             var playerPosition = transform.position;
             transform.position = new Vector3(playerPosition.x,
-                Mathf.Clamp(playerPosition.y - playerSpeed * Settings.Instance.gameSpeed, -3, 3), 0);
+                Mathf.Clamp(playerPosition.y - playerSpeed * Settings.Instance.gameSpeed * Time.deltaTime, -3, 3), 0);
         }
 
         private void SpawnArrow()
@@ -102,7 +112,9 @@ namespace Game
             newArrowHandler.player = this;
             currentDelay = 0;
             spawnedArrows++;
-            arrowsText.text = $"{spawnedArrows}/{Settings.Instance.maxArrows}";
+            UpdateArrowText();
         }
+
+        public void UpdateArrowText() => arrowsText.text = $"{spawnedArrows}/{Settings.Instance.maxArrows}";
     }
 }

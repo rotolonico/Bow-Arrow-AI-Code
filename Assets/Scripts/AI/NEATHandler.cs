@@ -49,7 +49,7 @@ namespace AI
                 alivePopulation.Add(newPlayerAI.GetComponent<PlayerController>());
 
                 if (!genome.Best) continue;
-                NetworkDisplayer.Instance.DisplayNetwork(genome.Genome);
+                NetworkDisplayer.Instance.DisplayNetwork(genome);
                 newPlayerAI.GetComponent<SpriteRenderer>().color = Color.white;
                 newPlayerAI.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
                 newPlayerAI.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
@@ -58,6 +58,8 @@ namespace AI
 
         public void InitializeGenome(GenomeWrapper genome)
         {
+            alivePopulation.Clear();
+            
             var newPlayerAI = Instantiate(playerAI, transform.position, Quaternion.identity);
             newPlayerAI.name = "0";
             var newPlayerController = newPlayerAI.GetComponent<PlayerController>();
@@ -66,7 +68,7 @@ namespace AI
             newPlayerController.instanceId = 0;
             alivePopulation.Add(newPlayerAI.GetComponent<PlayerController>());
 
-            NetworkDisplayer.Instance.DisplayNetwork(genome.Genome);
+            NetworkDisplayer.Instance.DisplayNetwork(genome);
             newPlayerAI.GetComponent<SpriteRenderer>().color = Color.white;
             newPlayerAI.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
             newPlayerAI.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;

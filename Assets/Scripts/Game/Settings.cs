@@ -16,17 +16,11 @@ namespace Game
         public int inputs;
         public int outputs;
         public bool autoGenerateConnections;
-        public float gameTime;
         public float gameSpeed;
         public int maxArrows;
         public int maxBalloons;
 
         public void Awake() => Instance = this;
-
-        private void Start()
-        {
-            if (Scenario == 1 || Scenario == 3) inputs--;
-        }
 
         public void Update()
         {

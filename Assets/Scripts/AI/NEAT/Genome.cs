@@ -42,6 +42,8 @@ namespace AI.NEAT
             ConnectionsCounter = toBeCopied.ConnectionsCounter;
         }
 
+        public int AliveTime { get; set; }
+
         private void InitializeGenome(Dictionary<int, NodeGene> nodes, Dictionary<int, ConnectionGene> connections, Counter nodeCounter, Counter connectionsCounter)
         {
             Nodes = nodes;

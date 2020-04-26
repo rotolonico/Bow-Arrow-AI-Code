@@ -1,4 +1,5 @@
 ﻿using System;
+using AI;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -38,6 +39,9 @@ namespace Game
         {
             if (balloonsSpawned >= Settings.Instance.maxBalloons) return;
             
+            currentDelay += !GameHandler.Instance.autoInputs.isOn ? Time.deltaTime * 3 : Time.deltaTime;
+            if (currentDelay < spawnDelay / Settings.Instance.gameSpeed) return;
+
             if (!GameHandler.Instance.autoInputs.isOn)
             {
                 if (Input.GetMouseButtonDown(0))
@@ -46,15 +50,16 @@ namespace Game
                         mainCamera.ScreenToWorldPoint(Input.mousePosition).x -
                         GameHandler.Instance.globalBalloonSpawner.transform.position.x);
                     balloonsText.text = $"{balloonsSpawned}/{Settings.Instance.maxBalloons}";
+                    currentDelay = 0;
+                    NEATHandler.Instance.alivePopulation.ForEach(p => p.hit = false);
                 }
             }
             else
             {
-                currentDelay += Time.deltaTime;
-                if (currentDelay < spawnDelay / Settings.Instance.gameSpeed) return;
                 SpawnBalloon((float) random.NextDouble() * 6 - 4);
                 balloonsText.text = $"{balloonsSpawned}/{Settings.Instance.maxBalloons}";
                 currentDelay = 0;
+                NEATHandler.Instance.alivePopulation.ForEach(p => p.hit = false);
             }
 
         }

@@ -14,18 +14,20 @@ namespace Game
 
         public Toggle autoInputs;
         public Toggle useTrainedNetwork;
+        public Toggle survivalMode;
         public TextMeshProUGUI trainNetworkText;
         public BalloonSpawner globalBalloonSpawner;
 
         public GameObject player;
         public bool playerAlive;
 
-        private float gameTime;
         private float idleTime;
 
         private bool isWebGL;
         private bool genomeDownloaded;
         private GenomeWrapper trainedGenome;
+
+        public int generation;
 
         private void Awake() => Instance = this;
 
@@ -34,6 +36,22 @@ namespace Game
             isWebGL = Application.streamingAssetsPath.Contains("://") ||
                       Application.streamingAssetsPath.Contains(":///");
             LoadTrainedGenome();
+        }
+
+        private void Update()
+        {
+            if (useTrainedNetwork.isOn
+                ? NEATHandler.Instance.alivePopulation[0].spawnedArrows >= Settings.Instance.maxArrows ||
+                  globalBalloonSpawner.balloonsSpawned >= Settings.Instance.maxBalloons
+                : globalBalloonSpawner.balloonsSpawned >= Settings.Instance.maxBalloons) idleTime += Time.deltaTime;
+            else idleTime = 0;
+            if (idleTime < 5) return;
+            NEATHandler.Instance.evaluator.Evaluate();
+            generation++;
+            Settings.Instance.maxBalloons = survivalMode.isOn ? generation + 5 : 3;
+            if (useTrainedNetwork.isOn) SwitchNetwork(false);
+            else ResetGame();
+            idleTime = 0;
         }
 
         private void LoadTrainedGenome()
@@ -53,32 +71,18 @@ namespace Game
             }
         }
 
-        private void Update()
+        public void SwitchNetwork(bool resetGeneration = true)
         {
-            gameTime += Time.deltaTime;
-            if (globalBalloonSpawner.balloonsSpawned >= Settings.Instance.maxBalloons) idleTime += Time.deltaTime;
-            if (idleTime < 5) return;
-            NEATHandler.Instance.evaluator.Evaluate();
-            if (useTrainedNetwork.isOn) SwitchNetwork();
-            else ResetGame();
-            gameTime = 0;
-            idleTime = 0;
-        }
-
-        public void SwitchNetwork()
-        {
-            if (!genomeDownloaded)
-            {
-                useTrainedNetwork.SetIsOnWithoutNotify(!useTrainedNetwork.isOn);
-                return;
-            }
-            
-            ResetGameAndNetwork(useTrainedNetwork.isOn ? trainedGenome : null);
+            if (!genomeDownloaded) useTrainedNetwork.SetIsOnWithoutNotify(!useTrainedNetwork.isOn);
+            ResetGameAndNetwork(useTrainedNetwork.isOn ? trainedGenome : null, resetGeneration);
             trainNetworkText.text = useTrainedNetwork.isOn ? "Train your network" : "Use trained network";
         }
 
-        public void ResetGameAndNetwork(GenomeWrapper startingGenome = null)
+        public void ResetGameAndNetwork(GenomeWrapper startingGenome = null, bool resetGeneration = true)
         {
+            if (resetGeneration) generation = 0;
+            Settings.Instance.maxBalloons = survivalMode.isOn ? generation + 5 : 3;
+
             globalBalloonSpawner.balloonsSpawned = 0;
             globalBalloonSpawner.balloonsText.text = $"{0}/{Settings.Instance.maxBalloons}";
 
