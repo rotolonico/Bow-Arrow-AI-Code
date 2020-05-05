@@ -21,7 +21,10 @@ namespace AI
 
         private void Awake() => Instance = this;
 
-        private void Start() => InitializeNetwork();
+        private void Start()
+        {
+            if (GameHandler.initialized) InitializeNetwork();
+        }
 
         public void InitializeNetwork(GenomeWrapper startingGenome = null)
         {

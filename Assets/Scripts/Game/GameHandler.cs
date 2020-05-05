@@ -28,6 +28,8 @@ namespace Game
         private GenomeWrapper trainedGenome;
 
         public int generation;
+        
+        public static bool initialized;
 
         private void Awake() => Instance = this;
 
@@ -46,11 +48,14 @@ namespace Game
                 : globalBalloonSpawner.balloonsSpawned >= Settings.Instance.maxBalloons) idleTime += Time.deltaTime;
             else idleTime = 0;
             if (idleTime < 5) return;
-            NEATHandler.Instance.evaluator.Evaluate();
             generation++;
             Settings.Instance.maxBalloons = survivalMode.isOn ? generation + 5 : 3;
             if (useTrainedNetwork.isOn) SwitchNetwork(false);
-            else ResetGame();
+            else
+            {
+                NEATHandler.Instance.evaluator.Evaluate();
+                ResetGame();
+            }
             idleTime = 0;
         }
 
@@ -63,11 +68,21 @@ namespace Game
                 {
                     trainedGenome = new GenomeWrapper(new Genome(downloadedGenome));
                     genomeDownloaded = true;
+                    
+                    if (initialized) return;
+                    useTrainedNetwork.SetIsOnWithoutNotify(true);
+                    SwitchNetwork();
+                    initialized = true;
                 }, Debug.Log);
             else
             {
                 trainedGenome = new GenomeWrapper(new Genome(NetworkStorage.LoadGenome(genomePath)));
                 genomeDownloaded = true;
+                
+                if (initialized) return;
+                useTrainedNetwork.SetIsOnWithoutNotify(true);
+                SwitchNetwork();
+                initialized = true;
             }
         }
 
